@@ -1,0 +1,51 @@
+.nav{
+        height: 150px;
+}
+
+.login-box {
+    background-color: #FFFFFF;
+    margin-left: 40%;
+    margin-right: 40%;
+    margin-top: 300px;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    border-color: #DBDBDB;
+    border-style: solid;
+    border-width: 1px;
+}
+
+.input-box {
+    margin-top: 10%;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.login-btn {
+    margin-top: 10%;
+    margin-left: 20%;
+    margin-right: 20%;
+}
+.or {
+    color: #8E8E8E;
+    margin-top: 5%;
+    margin-left: 20%;
+    margin-right: 20%;
+    align-self: center;
+}
+.signup {
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+.forgot {
+    margin-top: 11%;
+    margin-left: 35%;
+    margin-right: 10%;
+    align-items: center;
+}
+
+.forgot a {
+    color: #eb6e80;
+    text-decoration: none;
+}

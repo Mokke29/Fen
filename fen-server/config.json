@@ -1,0 +1,11 @@
+{
+    "SECRET_KEY": "mokke",
+    "DEBUG": true,
+    "PROPAGATE_EXCEPTIONS": true,
+    "SESSION_COOKIE_SAMESITE": "None",
+    "SESSION_COOKIE_SECURE": true,
+    "SQLALCHEMY_DATABASE_URI": "postgresql://postgres:123@localhost:5432/fen",
+    "SQLALCHEMY_TRACK_MODIFICATIONS": false,
+    "JWT_TOKEN_LOCATION": ["cookies"],
+    "JWT_COOKIE_SECURE": false
+}

@@ -1,0 +1,41 @@
+
+.post-box {
+background-color: #FFFFFF;
+margin-left: 25%;
+margin-right: 25%;
+margin-top: 200px;
+height: 500px;
+border-color: #DBDBDB;
+border-style: solid;
+border-width: 1px;
+}
+
+.post-form {
+    margin-top: 3%;
+    display: flex;
+    flex-direction: row;
+}
+
+.input-box-post {
+margin-left: 5%;
+margin-right: 10%;
+display: flex;
+flex-direction: column;
+}
+.post-description {
+    height: 250px;
+    width: 250px;
+}
+
+.save-btn {
+margin-top: 10%;
+margin-left: 20%;
+margin-right: 20%;
+}
+
+.image {
+    margin-left: 12%;
+    height: 400px;
+    width: 400px;
+}
+

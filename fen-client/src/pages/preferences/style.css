@@ -1,0 +1,48 @@
+.nav{
+    height: 150px;
+}
+
+.pref-box {
+background-color: #FFFFFF;
+margin-left: 10%;
+margin-right: 10%;
+margin-top: 200px;
+height: 600px;
+display: flex;
+flex-direction: column;
+border-color: #DBDBDB;
+border-style: solid;
+border-width: 1px;
+}
+
+.input-box {
+margin-top: 10%;
+margin-left: 10%;
+margin-right: 10%;
+}
+
+.input-box-text {
+    height: 200px;
+    margin-top: 10%;
+    margin-left: 10%;
+    margin-right: 10%;
+    }
+
+.save-btn {
+margin-top: 10%;
+margin-left: 20%;
+margin-right: 20%;
+}
+.or {
+color: #8E8E8E;
+margin-top: 5%;
+margin-left: 20%;
+margin-right: 20%;
+align-self: center;
+}
+
+.avatar {
+    height: 150px;
+    width: 150px;
+}
+

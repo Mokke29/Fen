@@ -1,0 +1,4 @@
+Flask_SQLAlchemy
+flask_cors
+flask_jwt_extended
+psycopg2

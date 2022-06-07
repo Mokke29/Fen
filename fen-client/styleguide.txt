@@ -1,0 +1,6 @@
+#eb6e80 main color
+#6eebd9 supporting color
+#FAFAFA default background
+#FFFFFF white for text, icons, borders etc...
+#DBDBDB grey for bg
+#8E8E8E grey for small elements

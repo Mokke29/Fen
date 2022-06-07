@@ -1,0 +1,13 @@
+
+fen-server/static/avatar
+fen-server/static/posts
+
+fen-client/node_modules
+fen-client/.pnp
+.pnp.js
+
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
