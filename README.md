@@ -9,7 +9,7 @@ This project is currently in development. Users can sign in, sing up, view and e
 ## Roadmap
 
 - Functionality to create and view posts on your and other profiles.
-- Discover new profiles based on your preferences
+- Discover new profiles based on your preferences.
 
 ## Installation and Setup Instructions
 
@@ -24,7 +24,7 @@ Server Installation:
 
 `cd fen-server`
 
-You will need to install flask_sqlalchemy, flask_cors, flask_jwt_extended, psycopg2 packages using `conda` or `pip`
+You will need to install flask_sqlalchemy, flask_cors, flask_jwt_extended, psycopg2 packages using `conda` or `pip`.
 
 To Start Client:
 
