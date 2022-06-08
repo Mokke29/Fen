@@ -18,6 +18,7 @@ Clone down this repository. You will need `node`, `npm`, `python`, `conda` or `p
 Client Installation:
 
 `cd fen-client`
+
 `npm install`
 
 Server Installation:
