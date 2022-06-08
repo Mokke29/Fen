@@ -21,10 +21,10 @@ Client Installation:
 `npm install`
 
 Server Installation:
+You will need to install flask, flask_sqlalchemy, flask_cors, flask_jwt_extended, psycopg2 packages using `conda` or `pip`.
 
 `cd fen-server`
-
-You will need to install flask_sqlalchemy, flask_cors, flask_jwt_extended, psycopg2 packages using `conda` or `pip`.
+`pip install flask flask_sqlalchemy flask_cors flask_jwt_extended psycopg2`
 
 To Start Client:
 
