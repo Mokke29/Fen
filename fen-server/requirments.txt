@@ -1,4 +1,5 @@
-Flask_sqlalchemy
+flask_sqlalchemy
 flask_cors
 flask_jwt_extended
 psycopg2
+flask
