@@ -54,8 +54,8 @@ function _NavBar(props: Props): JSX.Element {
   }, []);
 
   return (
-    <nav>
-      <Box position={'fixed'} className='nav'>
+    <nav className='nav-obj'>
+      <Box className='nav'>
         <p className='logo'>LOGO</p>
         <Autocomplete
           loading={true}
@@ -111,6 +111,7 @@ function _NavBar(props: Props): JSX.Element {
           }}
         >
           <Avatar
+            className='nav-avatar'
             alt='User avatar'
             src={`${serverUrl}static/avatar/${props.acc.avatar_path}`}
           />

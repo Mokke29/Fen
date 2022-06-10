@@ -2,35 +2,134 @@
     background-color: #FAFAFA;
     margin-left: 20%;
     margin-right: 20%;
-    margin-top: 200px;
-    height: 40rem;
-    display: flex;
-    flex-direction: row;
-}   
-
-.profile-info {
-    margin-top: 5%;
-    width: 50%;
-    font-size: large;
+    margin-top: 150px;
+    height: 100%;
     display: flex;
     flex-direction: column;
-}
-.username {
-    margin-left: 20%;
-}
-.stats {
+}   
+
+.profile-info-box {
+    margin-top: 5%;
+    font-size: large;
     display: flex;
     flex-direction: row;
-    margin-left: 20%;
+}
+.profile-stats-box {
+    width: 100%;
 }
 
 .avatar-box {
-    margin-top: 5%;
-    width: 50%;
+    display: flex;
+    width: 35%;
+    justify-content: center;
+    
 }
 
-.avatar { margin-left: 50%;}
+.avatar {
+    border-color: #eb6e80;
+    border-style: solid;
+    border-width: 4px;
+    box-shadow: 0 0 3px #eb6e80;
+}
+
+.profile-btn-box {
+    display: flex;
+    flex-direction: row;
+    margin-top: 2%;
+    align-items: center;
+}
+
+.username {
+    margin-left: 5%;
+    margin-right: 5%;
+    font-size: 30px;
+    color: #272727;
+}
+
+.follow-btn {
+    margin-left: 2%;
+    margin-right: 2%;
+}
+
+.message-btn {
+    margin-left: 2%;
+    margin-right: 2%;
+}
+
+.stats {
+    display: flex;
+    flex-direction: row;
+    margin-left: 5%;
+}
+
+.followers {}
 
 .description {
-    margin-top: 30%;
+    display: flex;
+    margin-left: 5%;
+    white-space: pre-line;
+    line-height: 1.5em;
+    height: 9em;       /* height is 2x line-height, so two lines will display */
+    overflow: hidden;
 }
+
+.description-expanded {
+    display: flex;
+    margin-left: 5%;
+    white-space: pre-line;
+    line-height: 1.5em;
+}
+
+.showmore {
+    margin-left: 5%;
+    color: #eb6e80;
+    cursor: pointer;
+}
+
+.posts {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.post {
+    margin-top: 2%;
+    margin-right: 5%;
+    height: 310px;
+    width: 310px;
+    position: relative;
+}
+
+.post-img {
+    width: 310px;
+    height: 310px;
+}
+
+.post-img:hover {
+    cursor: pointer;
+    opacity: 0.8;  
+}
+
+.post-img-info {
+    position: absolute;
+  top: -5%;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  color: #fff;
+  visibility: hidden;
+  opacity: 0;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  width: 310px;
+  height: 310px;
+  /* transition effect. not necessary */
+  transition: opacity .2s, visibility .2s;
+}
+
+.post:hover .post-img-info {
+    visibility: visible;
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.3);
+  }

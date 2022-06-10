@@ -18,8 +18,9 @@ interface Props {
 }
 
 interface Post {
-  content: string;
-  created_by: string;
+  likes: number;
+  comments: number;
+  id: number;
   image_path: string;
 }
 
@@ -27,9 +28,11 @@ function _Profile(props: Props): JSX.Element {
   let navigate = useNavigate();
   const { user } = useParams();
   const [posts, setPosts] = useState<Array<Post>>([]);
+  const [expandDescription, setExpandDescription] = useState(false);
+  const [postInfo, setPostInfo] = useState(false);
 
   async function getPosts(profile: string) {
-    let response = await axios({
+    await axios({
       data: { profile: profile },
       method: 'post',
       withCredentials: true,
@@ -38,17 +41,32 @@ function _Profile(props: Props): JSX.Element {
         'Content-Type': 'application/json',
       },
       url: serverUrl + 'post/get',
+    }).then((response) => {
+      if (response) {
+        console.log(response.data.posts);
+        setPosts(response.data.posts);
+      } else {
+        console.log('Unauthorized');
+      }
     });
-    setPosts(JSON.parse(response.data.posts));
-    let x = JSON.parse(response.data.posts[0]);
-    console.log(x);
   }
 
   let displayPosts = posts.map((x) => (
-    <div>
-      <p>{x.content}</p>
-      <p>{x.created_by}</p>
-      <p>{x.image_path}</p>
+    <div className='post' key={x.id}>
+      <img
+        onMouseEnter={(e) => {
+          setPostInfo(true);
+        }}
+        onMouseLeave={(e) => {
+          setPostInfo(false);
+        }}
+        className='post-img'
+        src={`${serverUrl}static/posts/${x.image_path}`}
+        alt=''
+      ></img>
+      <p className='post-img-info'>
+        {x.likes} {x.comments}
+      </p>
     </div>
   ));
 
@@ -88,41 +106,67 @@ function _Profile(props: Props): JSX.Element {
   return (
     <>
       <Box className='profile-box'>
-        <div className='profile-info'>
-          <p className='username'>
-            {props.profile.profile_name
-              ? props.profile.profile_name
-              : 'user not found'}
-          </p>
-          <div className='signup-btn'>
-            <Button
-              fullWidth={true}
-              variant='contained'
+        <div className='profile-info-box'>
+          <div className='avatar-box'>
+            <Avatar
+              className='avatar'
+              alt='User avatar'
+              src={`${serverUrl}static/avatar/${props.profile.avatar_path}`}
+              sx={{ width: 150, height: 150 }}
+            />
+          </div>
+          <div className='profile-stats-box'>
+            <div className='profile-btn-box'>
+              <p className='username'>
+                {props.profile.profile_name
+                  ? props.profile.profile_name
+                  : 'user not found'}
+              </p>
+              <div className='follow-btn'>
+                <Button
+                  fullWidth={true}
+                  variant='contained'
+                  onClick={() => {
+                    if (props.profile.followed) {
+                      unfollow(props.profile.profile_name);
+                    } else {
+                      follow(props.profile.profile_name);
+                    }
+                  }}
+                >
+                  {props.profile.followed ? 'Unfollow' : 'Follow'}
+                </Button>
+              </div>
+              <div className='message-btn'>
+                <Button fullWidth={true} variant='contained' onClick={() => {}}>
+                  Message
+                </Button>
+              </div>
+            </div>
+            <div className='stats'>
+              <p className='followers'>
+                <b>{props.profile.followers} </b>followers
+              </p>
+            </div>
+            <p
+              className={
+                expandDescription ? 'description-expanded' : 'description'
+              }
+            >
+              {props.profile.description}
+            </p>
+            <p
+              className='showmore'
               onClick={() => {
-                if (props.profile.followed) {
-                  unfollow(props.profile.profile_name);
-                } else {
-                  follow(props.profile.profile_name);
-                }
+                setExpandDescription(!expandDescription);
               }}
             >
-              {props.profile.followed ? 'Unfollow' : 'Follow'}
-            </Button>
-          </div>
-          <div className='stats'>
-            <p className='followers'>followers {props.profile.followers}</p>
+              show more
+            </p>
           </div>
         </div>
-        <div className='avatar-box'>
-          <Avatar
-            className='avatar'
-            alt='User avatar'
-            src={`${serverUrl}static/avatar/${props.profile.avatar_path}`}
-            sx={{ width: 150, height: 150 }}
-          />
-        </div>
-        <p className='description'>Descirpiton:{props.profile.description}</p>
-        {displayPosts}
+
+        <div className='posts'>{displayPosts}</div>
       </Box>
     </>
   );
