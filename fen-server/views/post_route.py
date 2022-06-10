@@ -41,7 +41,7 @@ def get_posts():
     profile = profile_util.Profile.query.filter_by(profile_name=data['profile']).first()
     posts = post_util.Post.query.filter_by(user_id=profile.user_id).all()
     for p in posts:
-        post_obj = {"content": p.content, "pub_date": p.pub_date,  "image_path": p.image_path, "created_by": data['profile']}
+        post_obj = {"id": p.id,"image_path": p.image_path, "likes": 875, "comments": 38}
         post_arr.append(post_obj)
     print(post_arr)
     return jsonify({"posts": post_arr})
