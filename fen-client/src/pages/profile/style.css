@@ -98,6 +98,7 @@
     height: 310px;
     width: 310px;
     position: relative;
+    cursor: pointer;
 }
 
 .post-img {

@@ -9,6 +9,8 @@ import { serverUrl } from '../../utils/constants';
 import { FollowTheSigns } from '@mui/icons-material';
 import axios from 'axios';
 import { Account, fetchAcc } from '../../redux/actions/account';
+import { Post } from '../post/Post';
+import { ViewPost } from '../../components/post/ViewPost';
 
 interface Props {
   profile: UserProfile;
@@ -30,6 +32,8 @@ function _Profile(props: Props): JSX.Element {
   const [posts, setPosts] = useState<Array<Post>>([]);
   const [expandDescription, setExpandDescription] = useState(false);
   const [postInfo, setPostInfo] = useState(false);
+  const [viewPost, setViewPost] = useState(false);
+  const [postId, setPostId] = useState(0);
 
   async function getPosts(profile: string) {
     await axios({
@@ -41,14 +45,21 @@ function _Profile(props: Props): JSX.Element {
         'Content-Type': 'application/json',
       },
       url: serverUrl + 'post/get',
-    }).then((response) => {
-      if (response) {
-        console.log(response.data.posts);
-        setPosts(response.data.posts);
-      } else {
-        console.log('Unauthorized');
-      }
-    });
+    })
+      .then((response) => {
+        if (response) {
+          console.log(response.data.posts);
+          setPosts(response.data.posts);
+        } else {
+          console.log('Unauthorized');
+        }
+      })
+      .catch((error) => {
+        console.log('CATCH BLOCK');
+        if (error.response.status === 401) {
+          navigate('/login');
+        }
+      });
   }
 
   let displayPosts = posts.map((x) => (
@@ -64,7 +75,13 @@ function _Profile(props: Props): JSX.Element {
         src={`${serverUrl}static/posts/${x.image_path}`}
         alt=''
       ></img>
-      <p className='post-img-info'>
+      <p
+        className='post-img-info'
+        onClick={() => {
+          setViewPost(true);
+          setPostId(x.id);
+        }}
+      >
         {x.likes} {x.comments}
       </p>
     </div>
@@ -167,6 +184,13 @@ function _Profile(props: Props): JSX.Element {
         </div>
 
         <div className='posts'>{displayPosts}</div>
+        <div>
+          {viewPost ? (
+            <ViewPost setViewPost={setViewPost} id={postId}></ViewPost>
+          ) : (
+            ''
+          )}
+        </div>
       </Box>
     </>
   );

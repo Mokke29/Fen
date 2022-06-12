@@ -20,7 +20,7 @@ def login():
         response.headers.add('Access-Control-Allow-Headers', 'x-www-form-urlencoded, Origin, X-Requested-With, Content-Type, Accept, Authorization')
         return response
     else:
-        return jsonify({'error': 'Wrong username or password'}), 401
+        return jsonify({'error': 'Wrong username or password', "status": "unauthorized"}), 200
 
 
 @auth_route.get('/protected')

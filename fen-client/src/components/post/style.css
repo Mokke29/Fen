@@ -1,0 +1,27 @@
+.blur-bg {
+    background-color: rgba(0, 0, 0, 0.3);
+    height: 105%;
+    width: 100%;
+    position: fixed;
+    z-index: 4;
+    top: 0;
+    left: 0;
+}
+
+.post-bg {
+    width: 1400px;
+    height: 900px;
+    background-color: antiquewhite;
+    position: fixed;
+    z-index: 5;
+    top: 2%;
+    left: 13%;
+}
+
+.close-btn {
+    margin-left: 112%;
+    margin-top: -3%;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+}
