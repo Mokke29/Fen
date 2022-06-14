@@ -14,6 +14,7 @@ class User(db.Model):
 
     followed_by= db.relationship("Following", backref='user', foreign_keys='Following.user_id')
     followers= db.relationship("Following", backref='follower', foreign_keys='Following.follower_id')
+    comment= db.relationship("Comment", backref='created_by', foreign_keys='Comment.user_id')
     
     def __init__(self, username, password):
         self.username = username

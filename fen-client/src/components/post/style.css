@@ -9,6 +9,8 @@
 }
 
 .post-bg {
+    display: flex;
+    flex-direction: row;
     width: 1400px;
     height: 900px;
     background-color: antiquewhite;
@@ -18,10 +20,100 @@
     left: 13%;
 }
 
+.post-left-div {
+    width: 65%;
+    height: 100%;
+}
+
+.post-right-div {
+    width: 35%;
+    background-color: #FAFAFA;
+}
+
 .close-btn {
-    margin-left: 112%;
-    margin-top: -3%;
+    margin-left: 120%;
+    margin-top: 1%;
     width: 50px;
     height: 50px;
     cursor: pointer;
 }
+
+.avatar-user {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 3%;
+    margin-top: -11%;
+}
+
+.post-creator {
+    font-size: 25px;
+    margin-left: 3%;
+}
+
+.solid-divider {
+    border-top: 1px solid #DBDBDB;
+    margin-top: -1%;
+}
+
+.content {
+    display: flex;
+    margin-left: 5%;
+    white-space: pre-line;
+    line-height: 1.5em;
+    height: 9em;       /* height is 2x line-height, so two lines will display */
+    overflow: hidden;
+}
+
+.content-expanded {
+    display: flex;
+    margin-left: 5%;
+    white-space: pre-line;
+    line-height: 1.5em;
+}
+
+.comment {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-top: 1%;
+    height: 50px;
+    background-color: antiquewhite;
+}
+
+.comment-creator {
+    font-size: 20px;
+    color:blueviolet;
+    margin-top: 2.8%;
+}
+
+.comment-content {
+    display: flex;
+    font-size: 15px;
+    margin-left: 5%;
+    white-space: pre-line;
+    line-height: 1.5em;
+    margin-right: 10%;
+    overflow-wrap: anywhere;
+}
+
+.comment-section {
+    display: flex;
+    flex-direction: column;
+    margin-left: 5%;
+    line-height: 1.5em;
+    height: 110px;       /* height is 2x line-height, so two lines will display */
+    overflow: hidden;
+}
+
+.comment-section-expanded {
+    display: flex;
+    flex-direction: column;
+    margin-left: 5%;
+    line-height: 1.5em;
+}
+
+.create-comment-box {
+
+}
+
