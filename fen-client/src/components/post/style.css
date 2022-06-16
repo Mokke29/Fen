@@ -49,6 +49,7 @@
 .post-creator {
     font-size: 25px;
     margin-left: 3%;
+    color:#313131;
 }
 
 .solid-divider {
@@ -56,20 +57,23 @@
     margin-top: -1%;
 }
 
+.creator-comment {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-top: 1%;
+    height: 50px;
+    align-items: center;
+    margin-left: 5%;
+    color:#313131;
+}
+
 .content {
     display: flex;
     margin-left: 5%;
     white-space: pre-line;
-    line-height: 1.5em;
-    height: 9em;       /* height is 2x line-height, so two lines will display */
+    line-height: 1.5em;      /* height is 2x line-height, so two lines will display */
     overflow: hidden;
-}
-
-.content-expanded {
-    display: flex;
-    margin-left: 5%;
-    white-space: pre-line;
-    line-height: 1.5em;
 }
 
 .comment {
@@ -77,14 +81,19 @@
     flex-direction: row;
     width: 100%;
     margin-top: 1%;
-    height: 50px;
-    background-color: antiquewhite;
+    height: 75px;
+    align-items: center;
+}
+
+.avatar-comment {
+    margin-left: 2%;
 }
 
 .comment-creator {
-    font-size: 20px;
-    color:blueviolet;
+    font-size: 15px;
+    color:#313131;
     margin-top: 2.8%;
+    margin-left: 3%;
 }
 
 .comment-content {
@@ -95,6 +104,7 @@
     line-height: 1.5em;
     margin-right: 10%;
     overflow-wrap: anywhere;
+    color:#313131;
 }
 
 .comment-section {
@@ -102,18 +112,31 @@
     flex-direction: column;
     margin-left: 5%;
     line-height: 1.5em;
-    height: 110px;       /* height is 2x line-height, so two lines will display */
-    overflow: hidden;
+    height: 67%;       /* height is 2x line-height, so two lines will display */
+    scroll-behavior: smooth;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
-.comment-section-expanded {
-    display: flex;
-    flex-direction: column;
-    margin-left: 5%;
-    line-height: 1.5em;
+.comment-section::-webkit-scrollbar {
+    display: none;
 }
 
 .create-comment-box {
-
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 7%;
 }
 
+.comment-input-box {
+}
+
+.send-btn {
+    margin-left: 5%;
+}
+
+.post-delete-btn {
+    margin-left: 20%;
+}

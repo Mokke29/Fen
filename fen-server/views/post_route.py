@@ -75,7 +75,22 @@ def get_comments_all():
     comments = post_util.Comment.query.filter_by(post_id=data.get('post_id')).all()
     for c in comments:
         profile = profile_util.Profile.query.filter_by(user_id=c.user_id).first()
-        comment_obj = {'content': c.content, 'pub_date': c.pub_date, 'creator': profile.profile_name}
+        comment_obj = {'content': c.content, 'pub_date': c.pub_date, 'creator': profile.profile_name, "avatar_path": profile.avatar_path}
         comment_arr.append(comment_obj)
     print(comment_arr)
     return jsonify({"comments": comment_arr})
+
+@post_route.post('/delete')
+@jwt_required()
+def delete_post():
+    user_id = get_jwt_identity()
+    data = request.get_json()
+    post = post_util.Post.query.filter_by(id=data["post_id"]).first()
+    user = user_util.get_by_id(post.user_id)
+    if user.user_id == post.user_id:
+        db.session.delete(post)
+        db.session.commit()
+        post_obj = {"message": "Post deleted!"}
+    else: 
+        post_obj = {"message": "Something went wrong!"}
+    return jsonify(post_obj)

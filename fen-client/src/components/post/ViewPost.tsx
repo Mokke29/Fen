@@ -50,14 +50,14 @@ interface Comment {
   content: string;
   pub_date: string;
   creator: string;
+  avatar_path: string;
 }
 
 function _ViewPost(props: Props): JSX.Element {
   const [options, setOptions] = useState<Array<string>>([]);
-  const [expandContent, setExpandContent] = useState(false);
-  const [expandCommentSection, setExpandCommentSection] = useState(false);
   const [postDetails, setPostDetails] = useState<PostDetails>();
   const [newComment, setNewComment] = useState('');
+  const [postOwner, setPostOwner] = useState(false);
   const [comments, setComments] = useState<Array<Comment>>([]);
   const navigate = useNavigate();
 
@@ -76,10 +76,13 @@ function _ViewPost(props: Props): JSX.Element {
       creator: response.data.creator,
       creator_avatar: response.data.creator_avatar,
     });
-    console.log(response);
+    if (response.data.creator === props.acc.profile_name) {
+      setPostOwner(true);
+    }
   }
 
-  async function createComment(content: string, postId: number) {
+  async function createComment(content: string, postId: number, e: any) {
+    e.preventDefault();
     let response = await axios({
       data: { content: content, post_id: postId },
       method: 'post',
@@ -120,8 +123,39 @@ function _ViewPost(props: Props): JSX.Element {
       });
   }
 
+  async function deletePost(postId: number) {
+    await axios({
+      data: { post_id: postId },
+      method: 'post',
+      withCredentials: true,
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      url: serverUrl + 'post/delete',
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          console.log('Window refresh');
+          window.location.reload();
+        }
+      })
+      .catch((error) => {
+        console.log('CATCH BLOCK');
+        if (error.response.status === 401) {
+          navigate('/login');
+        }
+      });
+  }
+
   let displayComments = comments.map((x) => (
     <div className='comment' key={x.pub_date}>
+      <Avatar
+        className='avatar-comment'
+        alt='User avatar'
+        src={`${serverUrl}static/avatar/${x.avatar_path}`}
+        sx={{ width: 30, height: 30 }}
+      />
       <p className='comment-creator'>{x.creator}</p>
       <p className='comment-content'>{x.content}</p>
     </div>
@@ -162,52 +196,50 @@ function _ViewPost(props: Props): JSX.Element {
                 sx={{ width: 40, height: 40 }}
               />
               <p className='post-creator'>{postDetails?.creator}</p>
+              {postOwner ? (
+                <div className='post-delete-btn'>
+                  <Button
+                    fullWidth={true}
+                    variant='contained'
+                    onClick={(e) => {
+                      deletePost(props.id);
+                    }}
+                  >
+                    Delete post
+                  </Button>
+                </div>
+              ) : (
+                ''
+              )}
             </div>
             <hr className='solid-divider'></hr>
-            <p className={expandContent ? 'content-expanded' : 'content'}>
-              {postDetails?.content}
-            </p>
-            <p
-              className='showmore'
-              onClick={() => {
-                setExpandContent(!expandContent);
-              }}
-            >
-              show more
-            </p>
-            <hr className='solid-divider'></hr>
-            <div
-              className={
-                expandCommentSection
-                  ? 'comment-section-expanded'
-                  : 'comment-section'
-              }
-            >
-              {displayComments}
+            <div className='creator-comment'>
+              <Avatar
+                className='avatar-comment'
+                alt='User avatar'
+                src={`${serverUrl}static/avatar/${postDetails?.creator_avatar}`}
+                sx={{ width: 30, height: 30 }}
+              />
+              <p className='comment-creator'>{postDetails?.creator}</p>
+              <p className='content'>{postDetails?.content}</p>
             </div>
-            <p
-              className='showmore'
-              onClick={() => {
-                setExpandCommentSection(!expandCommentSection);
-              }}
-            >
-              show all comments
-            </p>
+            <hr className='solid-divider'></hr>
+            <div className='comment-section'>{displayComments}</div>
             <Box className='create-comment-box'>
               <Input
                 color='primary'
-                className='input-box'
+                className='comment-input-box'
                 placeholder='content'
                 onChange={(event) => {
                   setNewComment(event.target.value);
                 }}
               />
-              <div className='signup-btn'>
+              <div className='send-btn'>
                 <Button
                   fullWidth={true}
                   variant='contained'
-                  onClick={() => {
-                    createComment(newComment, props.id);
+                  onClick={(e) => {
+                    createComment(newComment, props.id, e);
                   }}
                 >
                   Send
