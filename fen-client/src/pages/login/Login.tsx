@@ -19,6 +19,7 @@ function _Login(props: Props): JSX.Element {
   let navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [message, setMessage] = useState(false);
 
   async function login(username: string, password: string) {
     let response = await axios({
@@ -33,8 +34,13 @@ function _Login(props: Props): JSX.Element {
     });
     console.log(response);
     if (response.status === 200) {
-      props.fetchAcc();
-      navigate('/');
+      console.log(response);
+      if (response.data.status === 'unauthorized') {
+        setMessage(true);
+      } else {
+        props.fetchAcc();
+        navigate('/');
+      }
     }
   }
   return (
@@ -44,6 +50,7 @@ function _Login(props: Props): JSX.Element {
           <p className='logo'>LOGO</p>
         </Box>
         <Box className='login-box'>
+          <p className='or'>{message ? 'Wrong username or password' : ''}</p>
           <Input
             color='primary'
             className='input-box'

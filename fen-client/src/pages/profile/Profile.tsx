@@ -11,6 +11,7 @@ import axios from 'axios';
 import { Account, fetchAcc } from '../../redux/actions/account';
 import { Post } from '../post/Post';
 import { ViewPost } from '../../components/post/ViewPost';
+import { refreshToken } from '../../utils/refreshToken';
 
 interface Props {
   profile: UserProfile;
@@ -35,6 +36,11 @@ function _Profile(props: Props): JSX.Element {
   const [viewPost, setViewPost] = useState(false);
   const [postId, setPostId] = useState(0);
 
+  useEffect(() => {
+    props.fetchProfile(user);
+    getPosts(user!);
+  }, []);
+
   async function getPosts(profile: string) {
     await axios({
       data: { profile: profile },
@@ -55,10 +61,7 @@ function _Profile(props: Props): JSX.Element {
         }
       })
       .catch((error) => {
-        console.log('CATCH BLOCK');
-        if (error.response.status === 401) {
-          navigate('/login');
-        }
+        console.log('CATCH BLOCK GETPOSTS');
       });
   }
 
@@ -114,11 +117,6 @@ function _Profile(props: Props): JSX.Element {
     });
     window.location.reload();
   }
-
-  useEffect(() => {
-    props.fetchProfile(user);
-    getPosts(user!);
-  }, []);
 
   return (
     <>

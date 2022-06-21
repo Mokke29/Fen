@@ -8,6 +8,7 @@ import './style.css';
 import { serverUrl } from '../../utils/constants';
 import axios from 'axios';
 import { Account, fetchAcc } from '../../redux/actions/account';
+import { refreshToken } from '../../utils/refreshToken';
 
 interface Props {
   profile: UserProfile;

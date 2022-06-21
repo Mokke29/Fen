@@ -6,7 +6,7 @@ import json
 from flask_jwt_extended import JWTManager
 from datetime import timedelta
 from database import db
-from views import user_route, auth_route, post_route
+from views import user_route, auth_route, post_route, refresh_route
 
 app = Flask(__name__)
 #CONFIG file
@@ -21,6 +21,7 @@ CORS(app)
 app.register_blueprint(user_route.user_route, url_prefix="/user")
 app.register_blueprint(auth_route.auth_route, url_prefix="/auth")
 app.register_blueprint(post_route.post_route, url_prefix="/post")
+app.register_blueprint(refresh_route.refresh_route, url_prefix="/refresh")
 
 db.init_app(app)
 

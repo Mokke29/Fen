@@ -8,6 +8,7 @@ import './style.css';
 import { serverUrl } from '../../utils/constants';
 import axios from 'axios';
 import { Account, fetchAcc } from '../../redux/actions/account';
+import { refreshToken } from '../../utils/refreshToken';
 
 interface Props {
   profile: UserProfile;
@@ -28,6 +29,8 @@ function _Post(props: Props): JSX.Element {
   const [image, setImage] = useState<Image>({ file: '' });
   const fileRef = React.useRef() as React.MutableRefObject<HTMLInputElement>;
   const formRef = React.useRef() as React.MutableRefObject<HTMLFormElement>;
+
+  useEffect(() => {}, []);
 
   async function save(e: any) {
     e.preventDefault();

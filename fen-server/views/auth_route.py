@@ -1,8 +1,6 @@
-from urllib import response
-from database import db
 from flask import Blueprint, request, jsonify, make_response
-from util import user_util as user, profile_util as profile
-from flask_jwt_extended import JWTManager, create_access_token, create_refresh_token, jwt_required, get_jwt_identity
+from util import user_util as user
+from flask_jwt_extended import create_access_token, create_refresh_token
 from werkzeug.security import safe_str_cmp
 
 auth_route = Blueprint("auth_route", __name__, static_folder="static")
@@ -10,8 +8,8 @@ auth_route = Blueprint("auth_route", __name__, static_folder="static")
 @auth_route.post('/login')
 def login():
     data = request.get_json()
-    found_user = user.get_by_username(data["username"])
-    if found_user and safe_str_cmp(found_user.password, data["password"]): 
+    found_user = user.get_by_username(data.get("username"))
+    if found_user and safe_str_cmp(found_user.password, data.get("password")): 
         access_token = create_access_token(identity=found_user.user_id,fresh=True)
         refresh_token = create_refresh_token(found_user.user_id)
         response = make_response({'msg': 'Logged in!'})
@@ -21,18 +19,3 @@ def login():
         return response
     else:
         return jsonify({'error': 'Wrong username or password', "status": "unauthorized"}), 200
-
-
-@auth_route.get('/protected')
-@jwt_required()
-def protected():
-    user_id = get_jwt_identity()
-    usr = user.get_by_id(user_id)
-    return jsonify({'msg':'protected route 200', 'user_id': user_id})
-
-@auth_route.post('/token/refresh')
-@jwt_required(refresh=True)
-def token_refresh():
-    user_id = get_jwt_identity()
-    access_token = create_access_token(identity=user_id)
-    return jsonify({'access_token': access_token}), 200

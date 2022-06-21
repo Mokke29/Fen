@@ -25,6 +25,7 @@ import AddBoxIcon from '@mui/icons-material/AddBox';
 import ExploreIcon from '@mui/icons-material/Explore';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { Account, fetchAcc } from '../../redux/actions/account';
+import { refreshToken } from '../../utils/refreshToken';
 
 interface Props {
   profile: UserProfile;
@@ -37,6 +38,13 @@ function _NavBar(props: Props): JSX.Element {
   const [menu, setMenu] = useState(false);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    refreshToken(() => {
+      navigate('/login');
+    });
+    props.fetchAcc();
+  }, []);
+
   async function searching(inputValue: string) {
     if (inputValue.length > 2) {
       let response = await axios({
@@ -48,10 +56,6 @@ function _NavBar(props: Props): JSX.Element {
       setOptions(matchSorter(response.data.profiles, inputValue));
     }
   }
-
-  useEffect(() => {
-    props.fetchAcc();
-  }, []);
 
   return (
     <nav className='nav-obj'>

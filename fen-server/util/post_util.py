@@ -31,10 +31,3 @@ def create_comment(content, post_id, user_id):
         print(f"Database error... {e}")
         return False
 
-# class Comment(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     body = db.Column(db.Text)
-#     user_id = db.Column("user_id", db.Integer, db.ForeignKey('user.id'))
-#     post_id = db.Column("post_id", db.Integer, db.ForeignKey('user.id'))
-
- 
