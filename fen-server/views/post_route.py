@@ -46,6 +46,26 @@ def get_posts():
     print(post_arr)
     return jsonify({"posts": post_arr})
 
+#Gets all posts from followed profiles
+@post_route.get('/get/followed/<page>')
+@jwt_required()
+def get_followed_posts(page):
+    user_id = get_jwt_identity()
+    sort = request.args.get('sort')
+    print(f"SORT TYPE -> {sort}")
+    print(f"PAGE NUMBER -> {page}")
+    #data = request.get_json()
+    post_arr = []
+    posts = post_util.Post.query.filter_by().all()
+    for p in posts:
+        profile = profile_util.Profile.query.filter_by(user_id=p.user_id).first()
+        post_obj = {"id": p.id,"image_path": p.image_path, "likes": 875, "comments": 38, "creator": profile.profile_name, "content": p.content}
+        post_arr.append(post_obj)
+        print(post_arr)
+    post_arr.reverse()
+    return jsonify({"posts": post_arr})
+
+
 @post_route.post('/details')
 @jwt_required()
 def get_post_details():

@@ -60,7 +60,9 @@ function _NavBar(props: Props): JSX.Element {
   return (
     <nav className='nav-obj'>
       <Box className='nav'>
-        <p className='logo'>LOGO</p>
+        <a className='logo' href='/'>
+          LOGO
+        </a>
         <Autocomplete
           loading={true}
           options={options}
