@@ -78,10 +78,29 @@
 
 .comment {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     width: 100%;
     margin-top: 1%;
-    height: 75px;
+}
+.main-comment {
+    display: flex;
+    flex-direction: column;
+}
+
+.reply-comment {
+    display: flex;
+    flex-direction: column;
+}
+
+.comment-row-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.comment-row-info {
+    display: flex;
+    flex-direction: row;
     align-items: center;
 }
 
@@ -107,6 +126,13 @@
     color:#313131;
 }
 
+.comment-reply {
+    font-size: 10px;
+    color: #eb6e80;
+    margin-left: 3%;
+    cursor: pointer;
+}
+
 .comment-section {
     display: flex;
     flex-direction: column;
@@ -117,6 +143,22 @@
     overflow-y: scroll;
     -ms-overflow-style: none;
     scrollbar-width: none;
+}
+
+.comment-section-reply {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10%;
+    line-height: 1.5em;
+    height: 100%;       /* height is 2x line-height, so two lines will display */
+    scroll-behavior: smooth;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.comment-section-reply::-webkit-scrollbar {
+    display: none;
 }
 
 .comment-section::-webkit-scrollbar {

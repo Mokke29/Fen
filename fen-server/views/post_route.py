@@ -86,17 +86,39 @@ def create_new_comment():
     comment = post_util.create_comment(content=data.get("content"), post_id=data.get("post_id"), user_id=user_id)
     return jsonify('Post commented sucessfully')
 
+@post_route.post('/comment/reply')
+@jwt_required()
+def create_new_reply():
+    user_id = get_jwt_identity()
+    data = request.get_json()
+    comment = post_util.create_reply(content=data.get("content"), post_id=data.get("post_id"), user_id=user_id, comment_id=data.get("comment_id"))
+    return jsonify('Comment reply')
+
 @post_route.post('/comment/get')
 @jwt_required()
 def get_comments_all():
     user_id = get_jwt_identity()
     data = request.get_json()
     comment_arr = []
-    comments = post_util.Comment.query.filter_by(post_id=data.get('post_id')).all()
-    for c in comments:
-        profile = profile_util.Profile.query.filter_by(user_id=c.user_id).first()
-        comment_obj = {'content': c.content, 'pub_date': c.pub_date, 'creator': profile.profile_name, "avatar_path": profile.avatar_path}
-        comment_arr.append(comment_obj)
+    if data.get('post_id'):
+        print("GET COMMENTS")
+        comments = post_util.Comment.query.filter_by(post_id=data.get('post_id')).all()
+        for c in comments:
+            if c.reply_to == None:
+                profile = profile_util.Profile.query.filter_by(user_id=c.user_id).first()
+                print(c.reply_to)
+                comment_obj = {'content': c.content, 'pub_date': c.pub_date, 'creator': profile.profile_name, "avatar_path": profile.avatar_path, "id": c.id}
+                comment_arr.append(comment_obj)
+            else: 
+                print('Reply to a comment!')
+    if data.get('comment_id'):
+        print("GET REPLIES")
+        comments = post_util.Comment.query.filter_by(reply_to=data.get('comment_id')).all()
+        for c in comments:
+            profile = profile_util.Profile.query.filter_by(user_id=c.user_id).first()
+            print(c.reply_to)
+            comment_obj = {'content': c.content, 'pub_date': c.pub_date, 'creator': profile.profile_name, "avatar_path": profile.avatar_path, "id": c.id}
+            comment_arr.append(comment_obj)
     print(comment_arr)
     return jsonify({"comments": comment_arr})
 
@@ -115,3 +137,16 @@ def delete_post():
         post_obj = {"message": "Something went wrong!"}
     return jsonify(post_obj)
 
+@post_route.post('/comment/delete')
+@jwt_required()
+def delete_comment():
+    user_id = get_jwt_identity()
+    data = request.get_json()
+    comment = post_util.Comment.query.filter_by(id=data.get("comment_id")).first()
+    if user_id == comment.user_id:
+        db.session.delete(comment)
+        db.session.commit()
+        post_obj = {"message": "Comment deleted!"}
+    else: 
+        post_obj = {"message": "Something went wrong!"}
+    return jsonify(post_obj)

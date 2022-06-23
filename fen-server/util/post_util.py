@@ -16,6 +16,7 @@ class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.Text)
     pub_date = db.Column(db.DateTime, default=datetime.utcnow)
+    reply_to = db.Column(db.Integer)
 
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
     user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'))
@@ -31,3 +32,12 @@ def create_comment(content, post_id, user_id):
         print(f"Database error... {e}")
         return False
 
+def create_reply(content, post_id, user_id, comment_id):
+    try:
+        new_reply = Comment(content=content, post_id=post_id, user_id=user_id, reply_to = comment_id)
+        db.session.add_all([new_reply])
+        db.session.commit()
+        return True
+    except Exception as e:
+        print(f"Database error... {e}")
+        return False
