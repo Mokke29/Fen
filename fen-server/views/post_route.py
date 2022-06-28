@@ -143,6 +143,8 @@ def delete_comment():
     user_id = get_jwt_identity()
     data = request.get_json()
     comment = post_util.Comment.query.filter_by(id=data.get("comment_id")).first()
+    commentReplies = post_util.Comment.query.filter_by(reply_to=data.get("comment_id")).all()
+    print(f"REPLY TO -> {commentReplies}")
     if user_id == comment.user_id:
         db.session.delete(comment)
         db.session.commit()

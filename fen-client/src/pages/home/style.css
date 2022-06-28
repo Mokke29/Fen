@@ -24,12 +24,19 @@
     background-color: #DBDBDB;
 }
 .post-creator-name {
-    color: black;
+    margin-right: 1%;
+    cursor: pointer;
+}
+
+.post-creator-name a {
+    color: #eb6e80;
+  text-decoration: none;
 }
 
 .post-img-home {
     width: 410px;
     height: 410px;
+    cursor: pointer;
 }
 
 .post-likes {

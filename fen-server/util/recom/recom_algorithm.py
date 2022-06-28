@@ -21,5 +21,9 @@ def liking_history(*args):
 def commenting_history(*args):
     return
 
-def ai_recommender(*args):
+def ai_recommender(fn):
+    fn()
     return
+
+
+ai_recommender(lambda: print('hello there'))

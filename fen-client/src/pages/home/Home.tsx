@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchProfile, UserProfile } from '../../redux/actions/profile';
 import { StoreState } from '../../redux/reducers/root';
@@ -87,8 +87,14 @@ function _Home(props: Props): JSX.Element {
       <ul className='posts-ul'>
         {data.map((x, key) => (
           <li className='post-li' key={x.id}>
-            <p className='post-creator-name'>{x.creator}</p>
+            <div className='post-creator-name'>
+              <Link to={`/${x.creator}`}>{x.creator}</Link>
+            </div>
             <img
+              onClick={() => {
+                setViewPost(true);
+                setPostId(x.id);
+              }}
               onMouseEnter={(e) => {
                 setPostInfo(true);
               }}

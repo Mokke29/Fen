@@ -28,6 +28,7 @@ import ExploreIcon from '@mui/icons-material/Explore';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { Account, fetchAcc } from '../../redux/actions/account';
 import CloseIcon from '@mui/icons-material/Close';
+import { CommentSection } from './CommentSection';
 
 interface Props {
   profile: UserProfile;
@@ -46,34 +47,14 @@ interface PostDetails {
   creator_avatar: string;
 }
 
-interface Comment {
-  content: string;
-  pub_date: string;
-  creator: string;
-  avatar_path: string;
-  id: number;
-}
-
-interface ReplyMode {
-  status: boolean;
-  replyTo: string;
-  commentId: number;
-}
-
 function _ViewPost(props: Props): JSX.Element {
-  const [options, setOptions] = useState<Array<string>>([]);
   const [postDetails, setPostDetails] = useState<PostDetails>();
   const [newComment, setNewComment] = useState('');
   const [postOwner, setPostOwner] = useState(false);
-  const [replyMode, setReplyMode] = useState<ReplyMode>();
-  const [viewReplies, setViewReplies] = useState(false);
-  const [comments, setComments] = useState<Array<Comment>>([]);
-  const [replies, setReplies] = useState<Array<Comment>>([]);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    getComments(props.id);
     getDetails(props.id);
     props.fetchAcc();
     document.body.style.overflow = 'hidden';
@@ -97,95 +78,6 @@ function _ViewPost(props: Props): JSX.Element {
     if (response.data.creator === props.acc.profile_name) {
       setPostOwner(true);
     }
-  }
-
-  async function createComment(content: string, postId: number, e: any) {
-    e.preventDefault();
-    let response = await axios({
-      data: { content: content, post_id: postId },
-      method: 'post',
-      withCredentials: true,
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      url: serverUrl + 'post/comment',
-    });
-    console.log(response);
-  }
-
-  async function createReply(
-    content: string,
-    postId: number,
-    commentId: number,
-    e: any
-  ) {
-    e.preventDefault();
-    let response = await axios({
-      data: { content: content, post_id: postId, comment_id: commentId },
-      method: 'post',
-      withCredentials: true,
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      url: serverUrl + 'post/comment/reply',
-    });
-    console.log(response);
-  }
-
-  async function getComments(postId: number) {
-    await axios({
-      data: { post_id: postId },
-      method: 'post',
-      withCredentials: true,
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      url: serverUrl + 'post/comment/get',
-    })
-      .then((response) => {
-        if (response) {
-          console.log(response.data.comments);
-          setComments(response.data.comments);
-        } else {
-          console.log('Unauthorized');
-        }
-      })
-      .catch((error) => {
-        console.log('CATCH BLOCK');
-        if (error.response.status === 401) {
-          navigate('/login');
-        }
-      });
-  }
-
-  function getReplies(commentId: number) {
-    axios({
-      data: { comment_id: commentId },
-      method: 'post',
-      withCredentials: true,
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      url: serverUrl + 'post/comment/get',
-    })
-      .then((response) => {
-        if (response) {
-          console.log(response.data.comments);
-          setReplies(response.data.comments);
-        } else {
-          console.log('Unauthorized');
-        }
-      })
-      .catch((error) => {
-        console.log('CATCH BLOCK');
-        if (error.response.status === 401) {
-          navigate('/login');
-        }
-      });
   }
 
   async function deletePost(postId: number) {
@@ -212,140 +104,6 @@ function _ViewPost(props: Props): JSX.Element {
         }
       });
   }
-
-  async function deleteComment(commentId: number) {
-    await axios({
-      data: { comment_id: commentId },
-      method: 'post',
-      withCredentials: true,
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      url: serverUrl + 'post/comment/delete',
-    })
-      .then((response) => {
-        if (response.status === 200) {
-        }
-      })
-      .catch((error) => {
-        console.log('CATCH BLOCK');
-        if (error.response.status === 401) {
-          navigate('/login');
-        }
-      });
-  }
-
-  let displayReplies = replies.map((x) => (
-    <div className='comment' key={x.pub_date}>
-      <div className='main-comment'>
-        <div className='comment-row-content'>
-          <Avatar
-            className='avatar-comment'
-            alt='User avatar'
-            src={`${serverUrl}static/avatar/${x.avatar_path}`}
-            sx={{ width: 30, height: 30 }}
-          />
-          <p className='comment-creator'>{x.creator}</p>
-          <p className='comment-content'>{x.content}</p>
-        </div>
-        <div className='comment-row-info'>
-          <p
-            className='comment-reply'
-            onClick={() => {
-              setViewReplies(!viewReplies);
-              getReplies(x.id);
-            }}
-          >
-            Vhow replies
-          </p>
-          <p
-            className='comment-reply'
-            onClick={(e) => {
-              setReplyMode({
-                status: true,
-                replyTo: x.creator,
-                commentId: x.id,
-              });
-            }}
-          >
-            Reply
-          </p>
-          {x.creator === props.acc.profile_name ? (
-            <p
-              className='comment-reply'
-              onClick={() => {
-                deleteComment(x.id);
-              }}
-            >
-              Delete comment
-            </p>
-          ) : (
-            ''
-          )}
-        </div>
-      </div>
-    </div>
-  ));
-
-  let displayComments = comments.map((x) => (
-    <div className='comment' key={x.pub_date}>
-      <div className='main-comment'>
-        <div className='comment-row-content'>
-          <Avatar
-            className='avatar-comment'
-            alt='User avatar'
-            src={`${serverUrl}static/avatar/${x.avatar_path}`}
-            sx={{ width: 30, height: 30 }}
-          />
-          <p className='comment-creator'>{x.creator}</p>
-          <p className='comment-content'>{x.content}</p>
-        </div>
-        <div className='comment-row-info'>
-          <p
-            className='comment-reply'
-            onClick={() => {
-              setViewReplies(!viewReplies);
-              getReplies(x.id);
-            }}
-          >
-            View replies
-          </p>
-          <p
-            className='comment-reply'
-            onClick={(e) => {
-              setReplyMode({
-                status: true,
-                replyTo: x.creator,
-                commentId: x.id,
-              });
-            }}
-          >
-            Reply
-          </p>
-          {x.creator === props.acc.profile_name ? (
-            <p
-              className='comment-reply'
-              onClick={() => {
-                deleteComment(x.id);
-              }}
-            >
-              Delete comment
-            </p>
-          ) : (
-            ''
-          )}
-        </div>
-      </div>
-      <div className='reply-comment'>
-        {viewReplies ? (
-          <div className='comment-section-reply'>{displayReplies}</div>
-        ) : (
-          ''
-        )}
-      </div>
-    </div>
-  ));
 
   return (
     <>
@@ -403,39 +161,7 @@ function _ViewPost(props: Props): JSX.Element {
               <p className='content'>{postDetails?.content}</p>
             </div>
             <hr className='solid-divider'></hr>
-            <div className='comment-section'>{displayComments}</div>
-            {replyMode?.status ? (
-              <div>
-                <p>{replyMode.replyTo}</p>
-              </div>
-            ) : (
-              ''
-            )}
-            <Box className='create-comment-box'>
-              <Input
-                color='primary'
-                className='comment-input-box'
-                placeholder='content'
-                onChange={(event) => {
-                  setNewComment(event.target.value);
-                }}
-              />
-              <div className='send-btn'>
-                <Button
-                  fullWidth={true}
-                  variant='contained'
-                  onClick={(e) => {
-                    if (replyMode?.status) {
-                      createReply(newComment, props.id, replyMode.commentId, e);
-                    } else {
-                      createComment(newComment, props.id, e);
-                    }
-                  }}
-                >
-                  Send
-                </Button>
-              </div>
-            </Box>
+            <CommentSection postId={props.id}></CommentSection>
           </div>
         </div>
       </div>

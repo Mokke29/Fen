@@ -175,6 +175,11 @@
 .comment-input-box {
 }
 
+.reply-to {
+    font-size: 10px;
+    color: #eb6e80;
+}
+
 .send-btn {
     margin-left: 5%;
 }
@@ -182,3 +187,4 @@
 .post-delete-btn {
     margin-left: 20%;
 }
+
